@@ -68,18 +68,19 @@
 		
 		function initPads(){
 			for(var i =0 ; i<urls.length ; i++){
-				decodedBuffers.push(new Object());
+				var obj={};
 				request.open('GET',urls[i],true);
 				request.responseType= 'arraybuffer';
 				request.onload = function (){
 					context.decodeAudioData(request.response,function(decodedBuffer){
-						decodedBuffers[i].sound=decodedBuffer;
-						decodedBuffers[i].play=function() {
+						obj.sound=decodedBuffer;
+						obj.play=function() {
 							var bufSrcNode=context.createBufferSource();
 							bufSrcNode.buffer=decodedBuffer;
 							bufSrcNode.connect(context.destination);
 							bufSrcNode.start(0);
 						}
+						decodedBuffers.push(obj);
 					});
 				}
 				request.send();
