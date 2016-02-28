@@ -100,6 +100,7 @@
 		}
 		
 		function initPads(){
+			var namep="";
 			for(var i =0 ; i<urls.length ; i++){
 
 				request.open('GET',urls[i],true);
@@ -112,7 +113,7 @@
 							bufSrcNode.connect(context.dextination);
 							bufSrcNode.start(0);
 						}
-						var namep="p"+(i+1);
+						namep="p"+(i+1);
 						var pp = new pad(namep,decodedBuffer,play);
 						pads.push(pp);
 					});
