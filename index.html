@@ -68,17 +68,17 @@
 		
 		function initPads(){
 			for(var i =0 ; i<urls.length ; i++){
-				var obj={sound:null,play:new Function()};
+				var obj={sound:null};
 				request.open('GET',urls[i],true);
 				request.responseType= 'arraybuffer';
 				request.onload = function (){
 					context.decodeAudioData(request.response,function(decodedBuffer){
 						obj.sound=decodedBuffer;
-						obj.play=function() {
+						/*obj.play=function() {
 							var bufSrcNode=context.createBufferSource();
 							bufSrcNode.buffer=decodedBuffer;
 							bufSrcNode.connect(context.destination);
-							bufSrcNode.start(0);
+							bufSrcNode.start(0);*/
 						}
 						decodedBuffers[i]=obj;
 					});
@@ -88,19 +88,25 @@
 			}
 		}
 
-		document.getElementById('p1').addEventListener('mousedown',function(){ decodedBuffers[0].play(); });
-		document.getElementById('p2').addEventListener('mousedown',function(){ decodedBuffers[1].play(); });
-		document.getElementById('p3').addEventListener('mousedown',function(){ decodedBuffers[2].play(); });
-		document.getElementById('p4').addEventListener('mousedown',function(){ decodedBuffers[3].play(); });
-		document.getElementById('p5').addEventListener('mousedown',function(){ decodedBuffers[4].play(); });
-		document.getElementById('p6').addEventListener('mousedown',function(){ decodedBuffers[5].play(); });
-		document.getElementById('p7').addEventListener('mousedown',function(){ decodedBuffers[6].play(); });
-		document.getElementById('p8').addEventListener('mousedown',function(){ decodedBuffers[7].play(); });
-		document.getElementById('p9').addEventListener('mousedown',function(){ decodedBuffers[8].play(); });
-		document.getElementById('p10').addEventListener('mousedown',function(){ decodedBuffers[9].play(); });
-		document.getElementById('p11').addEventListener('mousedown',function(){ decodedBuffers[10].play(); });
-		document.getElementById('p12').addEventListener('mousedown',function(){ decodedBuffers[11].play(); });
+		document.getElementById('p1').addEventListener('mousedown',function(){ .play(decodedBuffers[0].sound); });
+		document.getElementById('p2').addEventListener('mousedown',function(){ play(decodedBuffers[1].sound); });
+		document.getElementById('p3').addEventListener('mousedown',function(){ play(decodedBuffers[2].sound); });
+		document.getElementById('p4').addEventListener('mousedown',function(){ play(decodedBuffers[3].sound); });
+		document.getElementById('p5').addEventListener('mousedown',function(){ play(decodedBuffers[4].sound); });
+		document.getElementById('p6').addEventListener('mousedown',function(){ play(decodedBuffers[5].sound); });
+		document.getElementById('p7').addEventListener('mousedown',function(){ play(decodedBuffers[6].sound); });
+		document.getElementById('p8').addEventListener('mousedown',function(){ play(decodedBuffers[7].sound); });
+		document.getElementById('p9').addEventListener('mousedown',function(){ play(decodedBuffers[8].sound); });
+		document.getElementById('p10').addEventListener('mousedown',function(){ play(decodedBuffers[9].sound); });
+		document.getElementById('p11').addEventListener('mousedown',function(){  play(decodedBuffers[10].sound); });
+		document.getElementById('p12').addEventListener('mousedown',function(){  play(decodedBuffers[11].sound); });
 
+		function play(sound) {
+			var bufSrcNode=context.createBufferSource();
+			bufSrcNode.buffer=sound;
+			bufSrcNode.connect(context.destination);
+			bufSrcNode.start(0);
+		}
 	</script>
 </body>
 </html>
