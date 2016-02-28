@@ -51,7 +51,18 @@
 		var context = new AudioContext();
 		var request = new XMLHttpRequest();
 		var pads=[];
-		var urls=["","","","","","","","","","","",""];
+		var urls=["https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Bass_Drop_28.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Bl_K.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Clap%206.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Lex%20Clap%2019.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/DT%20-%20Snare14.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Snare%2010.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Hat%205.WAV",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Hat_Closed_09.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Cymbal_Ride.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Kid%20Urban%20Perc1%2014.wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/drum%20(36).wav",
+					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Magnets%20Kick.wav"];
 
 		function pad(name,decodedBuffer,play){
 			this.name=name;
@@ -59,7 +70,7 @@
 			this.play=play;
 		}
 		
-		function initPads()(){
+		function initPads(){
 			for(var i =0 ; i<urls.length ; i++){
 				request.open('GET',urls[i],true);
 				request.responseType= 'arraybuffer';
@@ -80,7 +91,7 @@
 				};
 				request.send();
 			}
-			
+		}
 	</script>
 </body>
 </html>
