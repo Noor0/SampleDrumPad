@@ -43,9 +43,9 @@
 <body onload="initPads()">
 	<table>
 		<tr id="head"><td colspan="4">Drum Pad</td></tr>
-		<tr><td class="pad"></td><td class="pad"></td><td class="pad"></td><td class="pad"></td></tr>
-		<tr><td class="pad"></td><td class="pad"></td><td class="pad"></td><td class="pad"></td></tr>
-		<tr><td class="pad"></td><td class="pad"></td><td class="pad"></td><td class="pad"></td></tr>
+		<tr><td id ="p1" class="pad"></td><td id ="p2" class="pad"></td><td id ="p3" class="pad"></td><td id ="p4" class="pad"></td></tr>
+		<tr><td id ="p5" class="pad"></td><td id ="p6" class="pad"></td><td id ="p7" class="pad"></td><td id ="p8" class="pad"></td></tr>
+		<tr><td id ="p9" class="pad"></td><td id ="p10" class="pad"></td><td id ="p11" class="pad"></td><td  id ="p12" class="pad"></td></tr>
 	</table>
 	<script>
 		var context = new AudioContext();
@@ -63,7 +63,21 @@
 					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Kid%20Urban%20Perc1%2014.wav",
 					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/drum%20(36).wav",
 					""];*/
-		var htmlPads=document.getElementsByTagName('td');
+		var htmlPads=[document.getElementsByTagName('p1'),
+		document.getElementsByTagName('p2'),
+		document.getElementsByTagName('p3'),
+		document.getElementsByTagName('p4'),
+		document.getElementsByTagName('p5'),
+		document.getElementsByTagName('p6'),
+		document.getElementsByTagName('p7'),
+		document.getElementsByTagName('p8'),
+		document.getElementsByTagName('p9'),
+		document.getElementsByTagName('p10'),
+		document.getElementsByTagName('p11'),
+		document.getElementsByTagName('p12')];
+
+
+
 		var urls=["Samples/Bass_Drop_28.wav",
 					"Samples/Bl_K.wav",
 					"Samples/Clap 6.wav",
@@ -78,7 +92,7 @@
 					"Samples/Magnets Kick.wav"];
 
 
-		function pad(element,name,decodedBuffer,play){
+		function pad(name,decodedBuffer,play){
 			this.element=element;
 			this.name=name;
 			this.decodedBuffer=decodedBuffer;
@@ -93,19 +107,20 @@
 				request.onload = function (){
 					context.decodeAudioData(request.response,function(decodedBuffer){
 						var play = function(){
-							//bufSrcNode.stop();
 							var bufSrcNode=context.createBufferSource();
 							bufSrcNode.buffer=decodedBuffer;
 							bufSrcNode.connect(context.dextination);
 							bufSrcNode.start(0);
 						}
 						var namep="p"+i;
-						var element=htmlPads[i].addEventListener('mousedown',function(){console.log(this.name);} );
-						var pp = new pad(element,namep,decodedBuffer,play);
+						var pp = new pad(namep,decodedBuffer,play);
 						pads.push(pp);
 					});
 				};
 				request.send();
+				htmlPads[i].addEventListener('mousedown', function(){
+					pads[i].play();
+				})
 			}
 		}
 	</script>
