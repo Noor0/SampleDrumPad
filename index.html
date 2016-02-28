@@ -50,7 +50,7 @@
 	<script>
 		var context = new AudioContext();
 		var request = new XMLHttpRequest();
-		var decodedBuffers=[new Object()];
+		var decodedBuffers=[];
 		
 		var urls=["Samples/Bass_Drop_28.wav",
 					"Samples/Bl_K.wav",
@@ -65,27 +65,33 @@
 					"Samples/drum (36).wav",
 					"Samples/Magnets Kick.wav"];
 
-		
 		function initPads(){
-			for(var i =0 ; i<urls.length ; i++){
-				var obj={};
-				request.open('GET',urls[i],true);
-				request.responseType= 'arraybuffer';
-				request.onload = function (){
-					context.decodeAudioData(request.response,function(decodedBuffer){
-						obj.sound=decodedBuffer;
-						obj.play=function() {
-							var bufSrcNode=context.createBufferSource();
-							bufSrcNode.buffer=decodedBuffer;
-							bufSrcNode.connect(context.destination);
-							bufSrcNode.start(0);
-						}
-						decodedBuffers.push(obj);
-					});
-				}
-				request.send();
+			for (var i = 0 ; i < urls.length ; i++) 
+				decodedBuffers.push(soundLoader(urls[i]));
+		}
+		
+		function soundLoader(soundUrl){
+			var obj={};
+			obj.url=soundUrl;
 
+			request.open('GET',obj.url,true);
+			request.responseType= 'arraybuffer';
+
+			request.onload = function (){
+				context.decodeAudioData(request.response,function(decodedBuffer){
+					obj.sound=decodedBuffer;
+				});
 			}
+			request.send();
+
+			obj.play=function() {
+				var bufSrcNode=context.createBufferSource();
+				bufSrcNode.buffer=obj.sound;
+				bufSrcNode.connect(context.destination);
+				bufSrcNode.start(0);
+			}
+
+			return obj;
 		}
 
 		document.getElementById('p1').addEventListener('mousedown',function(){ decodedBuffers[0].play(); });
