@@ -7,15 +7,16 @@
 	body{
 			background-color: #ECECEC;
 			font-family: 'Cuprum', sans-serif;
+			text-align: center;
 		}
 
 	table{
 		text-align: center;
 		position: absolute;
-		top: 0%;
+		top: 10%;
 		left: 0%;
 		width: 100%;
-		height: 100%;
+		height: 90%;
 		
 	}
 
@@ -34,15 +35,16 @@
 	}
 
 	#head{
-		font-size: 30px;
+		font-size: 25px;
 		width: 100%;
 		height: 10%;
 	}
 	</style>
 </head>
 <body>
+	<h1>Drum Pad</h1>
 	<table>
-		<tr id="head"><td colspan="4">Drum Pad</td></tr>
+		
 		<tr><td id ="p1" class="pad"></td><td id ="p2" class="pad"></td><td id ="p3" class="pad"></td><td id ="p4" class="pad"></td></tr>
 		<tr><td id ="p5" class="pad"></td><td id ="p6" class="pad"></td><td id ="p7" class="pad"></td><td id ="p8" class="pad"></td></tr>
 		<tr><td id ="p9" class="pad"></td><td id ="p10" class="pad"></td><td id ="p11" class="pad"></td><td  id ="p12" class="pad"></td></tr>
@@ -94,8 +96,7 @@
 		document.getElementById('p12').addEventListener('mousedown',function(){ play(11); });
 
 		window.addEventListener('keydown', function(event){
-			alert(event.keycode);
-			switch (event.keycode) {
+			switch (event.keyCode) {
 				case 81:{
 					play(0);
 					break;
