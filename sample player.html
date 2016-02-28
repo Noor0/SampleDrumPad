@@ -11,7 +11,7 @@
 
 		
 function dss(){
-			request.open('GET','https://raw.githubusercontent.com/Noor0/JavaCodes/master/asd.wav',true);
+			request.open('GET','https://github.com/Noor0/SampleDrumPad/blob/master/asd.wav',true);
 			request.responseType= 'arraybuffer';
 			request.onload=function(){
 				context.decodeAudioData(request.response, function(buf){
