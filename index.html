@@ -50,7 +50,7 @@
 	<script>
 		var context = new AudioContext();
 		var request = new XMLHttpRequest();
-		var pads=[];
+		var decodedBuffers=new Array(12);
 		var htmlPads=[
 		document.getElementById('p1'),
 		document.getElementById('p2'),
@@ -80,14 +80,6 @@
 					"Samples/Kid Urban Perc1 14.wav",
 					"Samples/drum (36).wav",
 					"Samples/Magnets Kick.wav"];
-
-
-		function pad(name,decodedBuffer,play){
-			this.element=element;
-			this.name=name;
-			this.decodedBuffer=decodedBuffer;
-			this.play=play;
-		}
 		
 		function initPads(){
 			for(var i =0 ; i<urls.length ; i++){
@@ -96,22 +88,26 @@
 				request.responseType= 'arraybuffer';
 				request.onload = function (){
 					context.decodeAudioData(request.response,function(decodedBuffer){
-						var play = function(){
-							var bufSrcNode=context.createBufferSource();
-							bufSrcNode.buffer=decodedBuffer;
-							bufSrcNode.connect(context.dextination);
-							bufSrcNode.start(0);
-						}
-						var namep="p"+(i+1);
-						var pp = new pad(namep,decodedBuffer,play);
-						pads.push(pp);
+						decodedBuffers[i]=decodedBuffer;
+							
 					});
 				};
 				request.send();
-				htmlPads[i].addEventListener('mousedown', function(){
-					pads[i].play();
-				});
+
 			}
+			console.log(decodedBuffers[0]);
+			for(var i =0 ; i<urls.length ; i++){
+				htmlPads[i].addEventListener('mousedown',function(){
+					play(decodedBuffers[i]);
+				})
+			}
+		}
+
+		function play(sound){
+			var bufSrcNode=context.createBufferSource();
+			bufSrcNode.buffer=sound;
+			bufSrcNode.connect(context.dextination);
+			bufSrcNode.start(0);
 		}
 	</script>
 </body>
