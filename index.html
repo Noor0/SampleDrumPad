@@ -74,7 +74,7 @@
 				request.onload = function (){
 					context.decodeAudioData(request.response,function(decodedBuffer){
 						decodedBuffers[i].sound=decodedBuffer;
-						decodedBuffers[i].play={
+						decodedBuffers[i].play=function() {
 							var bufSrcNode=context.createBufferSource();
 							bufSrcNode.buffer=decodedBuffer;
 							bufSrcNode.connect(context.destination);
