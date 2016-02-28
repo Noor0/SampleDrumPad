@@ -64,7 +64,7 @@
 			for (var a=0 ; a < urls.length; a++){
 					var request = new XMLHttpRequest();
 					request.open('get',urls[a],true);
-					request.ResponseType='arraybuffer';
+					request.responseType='arraybuffer';
 					request.onload=function(){
 						context.decodeAudioData(request.response,function(buffered){
 							decbuf=buffered;
