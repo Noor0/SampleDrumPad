@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<input id="but" onclick="dss()" type="button" value="play"></input>
+	<script>
+		var context = new AudioContext();
+		var request = new XMLHttpRequest();
+
+		
+function dss(){
+			request.open('GET','https://raw.githubusercontent.com/Noor0/JavaCodes/master/asd.wav',true);
+			request.responseType= 'arraybuffer';
+			request.onload=function(){
+				context.decodeAudioData(request.response, function(buf){
+				var deck = context.createBufferSource();
+				deck.buffer=buf;
+				deck.connect(context.destination);
+				deck.start(1);
+			}, function(){console.log('error loading sample')});
+		}
+		request.send();
+		}
+	</script>
+</body>
+</html>
