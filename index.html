@@ -99,9 +99,11 @@
 							bufSrcNode.start(0);
 						}
 						var namep="p"+i;
-						pads.push(new pad(namep,decodedBuffer,play).addEventListener("mousedown", function(){
+						var pp = new pad(namep,decodedBuffer,play);
+						pp.addEventListener("mousedown", function(){
 							this.play();
-						}));
+						});
+						pads.push(pp);
 					});
 				};
 				request.send();
