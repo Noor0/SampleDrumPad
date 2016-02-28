@@ -50,10 +50,8 @@
 	<script>
 		var context = new AudioContext();
 		var request = new XMLHttpRequest();
-		var decodedBuffers=[];
+		var bufferSources=[]];
 		
-
-
 		var urls=["Samples/Bass_Drop_28.wav",
 					"Samples/Bl_K.wav",
 					"Samples/Clap 6.wav",
@@ -75,7 +73,10 @@
 				request.responseType= 'arraybuffer';
 				request.onload = function (){
 					context.decodeAudioData(request.response,function(decodedBuffer){
-						decodedBuffers.push(decodedBuffer);
+						var bufSrcNode=context.createBufferSource();
+						bufSrcNode.buffer=decodedBuffer;
+						bufSrcNode.connect(context.destination);
+						bufferSources.push(bufSrcNode);
 							
 					});
 				};
@@ -97,11 +98,8 @@
 		document.getElementById('p11').addEventListener('mousedown',function(){playIt(decodedBuffers[10])});
 		document.getElementById('p12').addEventListener('mousedown',function(){playIt(decodedBuffers[11])});
 
-		function playIt(sound){
-			var bufSrcNode=context.createBufferSource();
-			bufSrcNode.buffer=sound;
-			bufSrcNode.connect(context.destination);
-			bufSrcNode.start(0);
+		function playIt(source){
+			source.start(0);
 		}
 	</script>
 </body>
