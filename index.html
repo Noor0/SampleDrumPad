@@ -40,7 +40,7 @@
 	}
 	</style>
 </head>
-<body onload="initPads()">
+<body onload="go()">
 	<table>
 		<tr id="head"><td colspan="4">Drum Pad</td></tr>
 		<tr><td id ="p1" class="pad"></td><td id ="p2" class="pad"></td><td id ="p3" class="pad"></td><td id ="p4" class="pad"></td></tr>
@@ -49,8 +49,37 @@
 	</table>
 	<script>
 		var context = new AudioContext();
-		var request = new XMLHttpRequest();
-		var decodedBuffers=[new Object(),new Object(),new Object(),new Object(),new Object(),new Object(),new Object(),new Object(),new Object(),new Object(),new Object(),new Object()];
+
+		function kkk(url,decbuf,play){
+			this.url=url;
+			this.decbuf=decbuf;
+			this.play=play;
+
+		}
+
+		var decodedBuffers=new Array(12);
+
+		function go(){
+			var decbuf;
+			for (var a=0 ; a < urls.length; a++){
+					var request = new XMLHttpRequest();
+					request.open('get',url,true);
+					request.ResponseType='arraybuffer';
+					request.onload=function(){
+						context.decodeAudioData(request.response,function(buffered){
+							decbuf=buffered;
+						});
+					}
+
+				var pf=function(){
+					var bufSrcNode=context.createBufferSource();
+					bufSrcNode.buffer=this.decbuf;
+					bufSrcNode.connect(context.destination);
+					bufSrcNode.start(0);
+				}
+				decodedBuffers[a]=new kkk(urls[a],decbuf,pf);
+			}
+		}
 		
 		var urls=["Samples/Bass_Drop_28.wav",
 					"Samples/Bl_K.wav",
@@ -65,49 +94,20 @@
 					"Samples/drum (36).wav",
 					"Samples/Magnets Kick.wav"];
 
-		
-		function initPads(){
-			for(var i =0 ; i<urls.length ; i++){
-				var obj={sound:null};
-				request.open('GET',urls[i],true);
-				request.responseType= 'arraybuffer';
-				request.onload = function (){
-					context.decodeAudioData(request.response,function(decodedBuffer){
-						obj.sound=decodedBuffer;
-						/*obj.play=function() {
-							var bufSrcNode=context.createBufferSource();
-							bufSrcNode.buffer=decodedBuffer;
-							bufSrcNode.connect(context.destination);
-							bufSrcNode.start(0);
-						}*/
-						
-					});
-				}
-				decodedBuffers[i]=obj;
-				request.send();
 
-			}
-		}
+		document.getElementById('p1').addEventListener('mousedown',function(){ decodedBuffers[0].play();  });
+		document.getElementById('p2').addEventListener('mousedown',function(){ decodedBuffers[1].play(); });
+		document.getElementById('p3').addEventListener('mousedown',function(){ decodedBuffers[2].play(); });
+		document.getElementById('p4').addEventListener('mousedown',function(){  });
+		document.getElementById('p5').addEventListener('mousedown',function(){  });
+		document.getElementById('p6').addEventListener('mousedown',function(){  });
+		document.getElementById('p7').addEventListener('mousedown',function(){  });
+		document.getElementById('p8').addEventListener('mousedown',function(){  });
+		document.getElementById('p9').addEventListener('mousedown',function(){  });
+		document.getElementById('p10').addEventListener('mousedown',function(){  });
+		document.getElementById('p11').addEventListener('mousedown',function(){   });
+		document.getElementById('p12').addEventListener('mousedown',function(){   });
 
-		document.getElementById('p1').addEventListener('mousedown',function(){ play(decodedBuffers[0].sound); });
-		document.getElementById('p2').addEventListener('mousedown',function(){ play(decodedBuffers[1].sound); });
-		document.getElementById('p3').addEventListener('mousedown',function(){ play(decodedBuffers[2].sound); });
-		document.getElementById('p4').addEventListener('mousedown',function(){ play(decodedBuffers[3].sound); });
-		document.getElementById('p5').addEventListener('mousedown',function(){ play(decodedBuffers[4].sound); });
-		document.getElementById('p6').addEventListener('mousedown',function(){ play(decodedBuffers[5].sound); });
-		document.getElementById('p7').addEventListener('mousedown',function(){ play(decodedBuffers[6].sound); });
-		document.getElementById('p8').addEventListener('mousedown',function(){ play(decodedBuffers[7].sound); });
-		document.getElementById('p9').addEventListener('mousedown',function(){ play(decodedBuffers[8].sound); });
-		document.getElementById('p10').addEventListener('mousedown',function(){ play(decodedBuffers[9].sound); });
-		document.getElementById('p11').addEventListener('mousedown',function(){  play(decodedBuffers[10].sound); });
-		document.getElementById('p12').addEventListener('mousedown',function(){  play(decodedBuffers[11].sound); });
-
-		function play(sound) {
-			var bufSrcNode=context.createBufferSource();
-			bufSrcNode.buffer=sound;
-			bufSrcNode.connect(context.destination);
-			bufSrcNode.start(0);
-		}
 	</script>
 </body>
 </html>
