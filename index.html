@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drum Pad</title>
+	<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
+	<style>
+	body{
+			background-color: #ECECEC;
+			font-family: 'Cuprum', sans-serif;
+		}
+
+	table{
+		text-align: center;
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		width: 100%;
+		height: 100%;
+		
+	}
+
+	.pad{
+		background-color: #00B16A;
+		margin-left:10px;
+		margin-right:10px; 
+		border: 3px solid white;
+		box-shadow: 0px 0px 0px 0px #00B16A;
+	}
+
+	td:active{
+		-webkit-box-shadow: inset -1px 0px 278px 200px rgba(255,255,255,0.31);
+ 		-moz-box-shadow: inset -1px 0px 278px 200px rgba(255,255,255,0.31);
+		box-shadow: inset -1px 0px 278px 200px rgba(255,255,255,0.31);
+	}
+
+	#head{
+		font-size: 30px;
+		width: 100%;
+		height: 10%;
+	}
+	</style>
+</head>
+<body onload="initPads()">
+	<table>
+		<tr id="head"><td colspan="4">Drum Pad</td></tr>
+		<tr><td class="pad"></td><td class="pad"></td><td class="pad"></td><td class="pad"></td></tr>
+		<tr><td class="pad"></td><td class="pad"></td><td class="pad"></td><td class="pad"></td></tr>
+		<tr><td class="pad"></td><td class="pad"></td><td class="pad"></td><td class="pad"></td></tr>
+	</table>
+	<script>
+		var context = new AudioContext();
+		var request = new XMLHttpRequest();
+		var pads=[];
+		var urls=["","","","","","","","","","","",""];
+
+		function pad(name,decodedBuffer,play){
+			this.name=name;
+			this.decodedBuffer=decodedBuffer;
+			this.play=play;
+		}
+		
+		function initPads()(){
+			for(var i =0 ; i<urls.length ; i++){
+				request.open('GET',urls[i],true);
+				request.responseType= 'arraybuffer';
+				request.onload = function (){
+					context.decodeAudioData(request.response,function(decodedBuffer){
+						var play = function(){
+							//bufSrcNode.stop();
+							var bufSrcNode=context.createBufferSource();
+							bufSrcNode.buffer=decodedBuffer;
+							bufSrcNode.connect(context.dextination);
+							bufSrcNode.start(0);
+						}
+						var namep="p"+i;
+						pads.push(new pad(namep,decodedBuffer,play).addEventListener("mousedown", function(){
+							this.play();
+						}));
+					});
+				};
+				request.send();
+			}
+			
+	</script>
+</body>
+</html>
