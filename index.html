@@ -70,7 +70,7 @@
 							decbuf=buffered;
 						});
 					}
-
+					request.send();
 				var pf=function(){
 					var bufSrcNode=context.createBufferSource();
 					bufSrcNode.buffer=this.decbuf;
