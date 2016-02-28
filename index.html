@@ -63,7 +63,7 @@
 					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/Kid%20Urban%20Perc1%2014.wav",
 					"https://github.com/Noor0/SampleDrumPad/blob/master/Samples/drum%20(36).wav",
 					""];*/
-		var htmlPads=[document.getElementsByTagName('p1'),
+		var htmlPads=[/*document.getElementsByTagName('p1'),
 		document.getElementsByTagName('p2'),
 		document.getElementsByTagName('p3'),
 		document.getElementsByTagName('p4'),
@@ -74,7 +74,7 @@
 		document.getElementsByTagName('p9'),
 		document.getElementsByTagName('p10'),
 		document.getElementsByTagName('p11'),
-		document.getElementsByTagName('p12')];
+		document.getElementsByTagName('p12')*/];
 
 
 
@@ -112,15 +112,15 @@
 							bufSrcNode.connect(context.dextination);
 							bufSrcNode.start(0);
 						}
-						var namep="p"+i;
+						var namep="p"+(i+1);
 						var pp = new pad(namep,decodedBuffer,play);
 						pads.push(pp);
 					});
 				};
 				request.send();
-				htmlPads[i].addEventListener('mousedown', function(){
+				document.getElementById(namep).addEventListener('mousedown', function(){
 					pads[i].play();
-				})
+				});
 			}
 		}
 	</script>
