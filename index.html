@@ -100,7 +100,7 @@
 							bufSrcNode.start(0);
 						}
 						var namep="p"+i;
-						var element=htmlPads[i].addEventListener('mousedown',function(){this.play();} );
+						var element=htmlPads[i].addEventListener('mousedown',function(){console.log(this.name);} );
 						var pp = new pad(element,namep,decodedBuffer,play);
 						pads.push(pp);
 					});
