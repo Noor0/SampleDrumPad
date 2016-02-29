@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>Drum Pad</title>
-	<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
 	<style>
 	body{
 		background-color: #ECECEC;
@@ -15,7 +15,7 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		user-select: none;
-	}
+		}
 
 	table{
 		text-align: center;
@@ -56,7 +56,7 @@
 	}
 	</style>
 </head>
-<body>
+<body onload="go()">
 	<h1>Drum Pad</h1>
 	<table>
 		
@@ -83,22 +83,22 @@
 		var context = new AudioContext();
 		var request = new XMLHttpRequest();
 
-		
+		var sourceNodes=new new Array(12);
 		
 		var urls=["Samples/Bass_Drop_28.wav",
-					"Samples/Bl_K.wav",
-					"Samples/Clap 6.wav",
-					"Samples/Lex Clap 19.wav",
-					"Samples/DT - Snare14.wav",
-					"Samples/Snare 10.wav",
-					"Samples/Hat 5.WAV",
-					"Samples/Hat_Closed_09.wav",
-					"Samples/Cymbal_Ride.wav",
-					"Samples/Kid Urban Perc1 14.wav",
-					"Samples/drum (36).wav",
-					"Samples/Magnets Kick.wav"];
+				"Samples/Bl_K.wav",
+				"Samples/Clap 6.wav",
+				"Samples/Lex Clap 19.wav",
+				"Samples/DT - Snare14.wav",
+				"Samples/Snare 10.wav",
+				"Samples/Hat 5.WAV",
+				"Samples/Hat_Closed_09.wav",
+				"Samples/Cymbal_Ride.wav",
+				"Samples/Kid Urban Perc1 14.wav",
+				"Samples/drum (36).wav",
+				"Samples/Magnets Kick.wav"];
 
-		function play(i){
+		/*function play(i){
 			request.open('GET',urls[i],true);
 			request.responseType= 'arraybuffer';
 			request.onload=function(){
@@ -110,81 +110,117 @@
 			});
 			}
 			request.send();
+		}*/
+
+		function go(){
+			for(var i=0 ; i<12 ; i++){
+				request.open('GET',urls[i],true);
+				request.responseType= 'arraybuffer';
+				request.onload=function(){
+					sourceNodes[i]=context.createBufferSource();
+					sourceNodes[i].buffer=context.createBuffer(request.response,false);
+					sourceNodes[i].connect(context.destination);
+				};
+			}
 		}
 
-		document.getElementById('p1').addEventListener('mousedown',function(){ play(0);  });
-		document.getElementById('p2').addEventListener('mousedown',function(){ play(1); });
-		document.getElementById('p3').addEventListener('mousedown',function(){ play(2); });
-		document.getElementById('p4').addEventListener('mousedown',function(){ play(3); });
-		document.getElementById('p5').addEventListener('mousedown',function(){ play(4); });
-		document.getElementById('p6').addEventListener('mousedown',function(){ play(5); });
-		document.getElementById('p7').addEventListener('mousedown',function(){ play(6); });
-		document.getElementById('p8').addEventListener('mousedown',function(){ play(7); });
-		document.getElementById('p9').addEventListener('mousedown',function(){ play(8); });
-		document.getElementById('p10').addEventListener('mousedown',function(){ play(9); });
-		document.getElementById('p11').addEventListener('mousedown',function(){ play(10); });
-		document.getElementById('p12').addEventListener('mousedown',function(){ play(11); });
+		document.getElementById('p1').addEventListener('mousedown',function(){ down('p1');/*play(0);*/ });
+		document.getElementById('p2').addEventListener('mousedown',function(){ down('p2');/*play(1); */});
+		document.getElementById('p3').addEventListener('mousedown',function(){ down('p3');/*play(2); */});
+		document.getElementById('p4').addEventListener('mousedown',function(){ down('p4');/*play(3); */});
+		document.getElementById('p5').addEventListener('mousedown',function(){ down('p5');/*play(4); */});
+		document.getElementById('p6').addEventListener('mousedown',function(){ down('p6');/*play(5); */});
+		document.getElementById('p7').addEventListener('mousedown',function(){ down('p7');/*play(6); */});
+		document.getElementById('p8').addEventListener('mousedown',function(){ down('p8');/*play(7); */});
+		document.getElementById('p9').addEventListener('mousedown',function(){ down('p9');/*play(8); */});
+		document.getElementById('p10').addEventListener('mousedown',function(){ down('p10');/*play(9); */});
+		document.getElementById('p11').addEventListener('mousedown',function(){ down('p11');/*play(10); */});
+		document.getElementById('p12').addEventListener('mousedown',function(){ down('p12');/*play(11); */});
 
 		window.addEventListener('keydown', function(event){
 			switch (event.keyCode) {
 				case 81:{
 					down('p1');
-					play(0);
+					//play(0);
+					sourceNodes[0].connect(context.destination);
+					sourceNodes[0].start(0);
 					break;
 				}
 				case 87:{
 					down('p2');
-					play(1);
+					//play(1);
+					sourceNodes[1].connect(context.destination);
+					sourceNodes[1].start(0);
 					break;
 				}
 				case 69:{
 					down('p3');
-					play(2);
+					//play(2);
+					sourceNodes[2].connect(context.destination);
+					sourceNodes[2].start(0);
 					break;
 				}
 				case 82:{
 					down('p4');
-					play(3);
+					//play(3);
+					sourceNodes[3].connect(context.destination);
+					sourceNodes[3].start(0);
 					break;
 				}
 				case 70:{
 					down('p5');
-					play(4);
+					//play(4);
+					sourceNodes[4].connect(context.destination);
+					sourceNodes[4].start(0);
 					break;
 				}
 				case 71:{
 					down('p6');
-					play(5);
+					//play(5);
+					sourceNodes[5].connect(context.destination);
+					sourceNodes[5].start(0);
 					break;
 				}
 				case 79:{
 					down('p7');
-					play(6);
+					//play(6);
+					sourceNodes[6].connect(context.destination);
+					sourceNodes[6].start(0);
 					break;
 				}
 				case 80:{
 					down('p8');
-					play(7);
+					//play(7);
+					sourceNodes[7].connect(context.destination);
+					sourceNodes[7].start(0);
 					break;
 				}
 				case 219:{
 					down('p9');
-					play(8);
+					//play(8);
+					sourceNodes[8].connect(context.destination);
+					sourceNodes[8].start(0);
 					break;
 				}
 				case 221:{
 					down('p10');
-					play(9);
+					//play(9);
+					sourceNodes[9].connect(context.destination);
+					sourceNodes[9].start(0);
 					break;
 				}
 				case 74:{
 					down('p11');
-					play(10);
+					//play(10
+					sourceNodes[10].connect(context.destination);
+					sourceNodes[10].start(0);
 					break;
 				}
 				case 75:{
 					down('p12');
-					play(11);
+					//play(11
+					sourceNodes[11].connect(context.destination);
+					sourceNodes[11].start(0);
 					break;
 				}
 			};
@@ -197,9 +233,9 @@
 		}
 
 		function up(id){
-			document.getElementById(id).style.webkitBoxShadow="0px 0px 0px 0px rgba(255,255,255,0.31)";
-			document.getElementById(id).style.oBoxShadow="0px 0px 0px 0px rgba(255,255,255,0.31)";
-			document.getElementById(id).style.mozBoxShadow="0px 0px 0px 0px rgba(255,255,255,0.31)";
+			document.getElementById(id).style.webkitBoxShadow="0px 0px 0px 0px #00B16A";
+			document.getElementById(id).style.oBoxShadow="0px 0px 0px 0px #00B16A";
+			document.getElementById(id).style.mozBoxShadow="0px 0px 0px 0px #00B16A";
 		}
 
 		window.addEventListener('keyup', function(event){
